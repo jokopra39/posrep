@@ -1,20 +1,40 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { Text, Button } from "react-native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import HomeScreen from "./components/homescreen";
+import Isme from "./components/isme";
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+const MyStack = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} options={options} />
+        <Stack.Screen
+          name="isme"
+          component={Isme}
+          options={{ title: "Welcome boss" }}
+        />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+const options = () => ({
+  headerRight: () => (
+    <Button
+      onPress={() => alert("This is a button!")}
+      title="Info"
+      color="#fff"
+    />
+  ),
 });
+
+const ProfileScreen = ({ navigation, route }) => {
+  return <Text>This is {route.params.name}'s profile</Text>;
+};
+
+export default MyStack;
